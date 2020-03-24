@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+ @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
 :root {
   --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -38,7 +38,7 @@ h3 {
 h4 {
   margin: 0;
   text-transform: uppercase;
-} */
+} 
 
 .inc-exp-container {
   background-color: #fff;
@@ -72,7 +72,7 @@ h4 {
   color: #c0392b;
 }
 
-/* label {
+label {
   display: inline-block;
   margin: 10px 0;
 }
@@ -121,7 +121,7 @@ input[type='number'] {
   padding: 10px;
   margin: 10px 0;
 }
-*/
+
 
 tr.plus {
   border-right: 5px solid #2ecc71;
@@ -131,7 +131,7 @@ tr.minus {
   border-right: 5px solid #c0392b;
 }
 
-/*
+
 .delete-btn {
   cursor: pointer;
   background-color: #e74c3c;
@@ -150,4 +150,4 @@ tr.minus {
 
 .list li:hover .delete-btn {
   opacity: 1;
-} */
+} 

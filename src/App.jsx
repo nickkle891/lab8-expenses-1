@@ -9,6 +9,7 @@ import Balance from './components/Balance';
 import IncomeExpense from './components/IncomeExpense';
 import TransactionTable from './components/TransactionTable';
 import About from './components/About';
+import firebase from './firebase/firebase'
 
 import './App.css';
 
@@ -19,34 +20,12 @@ export default class App extends Component {
 
   loadData = () => {
     // get data from variable
-    const data = [ 
-      {
-        id: v4(),
-        name: 'Dinner with family',
-        amount: -1250,
-        date: new Date(2020,1,28)
-      },
-      {
-        id: v4(),
-        name: 'Movie',
-        amount: -200,
-        date: new Date(2020,1,29)
-      },
-      {
-        id: v4(),
-        name: 'Lottery',
-        amount: 1500,
-        date: new Date(2020,2,2)
-      },
-      {
-        id: v4(),
-        name: 'Salary',
-        amount: 6500,
-        date: new Date(2020,1,25)
-      }
-    ];
-
-    this.setState( { transactions: data } );
+      firebase.firestore().collection('expense')
+        .onSnapshot(item => {
+          this.setState({
+            transactions: item ,
+          })
+        })
   }
 
   loadJsonData = () => {
@@ -59,9 +38,22 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    // this.loadData();   // load data from variable
-    this.loadJsonData();  // load data from JSON file on server
+    // this.loadJsonData();   // load data from variable
+    // load data from JSON file on server
     // this.loadFirebase(); // load data from Firebase
+    firebase.firestore()
+     .collection('expense')
+     .get()
+     .then((querySnapshot) => {
+       let transactions = []
+ 
+       querySnapshot.forEach((doc) => {
+         transactions.push(doc.data())
+       })
+ 
+       this.setState({transactions})
+     })
+
   }
 
   validateForm = (name,amount) => {
@@ -94,6 +86,8 @@ export default class App extends Component {
 
     this.state.transactions.unshift(newTransaction);
     this.setState( { transactions: this.state.transactions } );
+
+    firebase.firestore().collection('expense').add(newTransaction)
   }
 
   clearTransactions = () => {
@@ -101,6 +95,15 @@ export default class App extends Component {
     if (ans) {
       this.setState( { transactions: [] } );
     }
+    firebase.firestore()
+       .collection('expense')
+       .get()
+       .then((querySnapshot) => {
+         querySnapshot.forEach((doc) => {
+           doc.ref.delete()
+         })
+       })
+
   }
 
   render() {
